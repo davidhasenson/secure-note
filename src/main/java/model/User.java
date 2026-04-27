@@ -1,4 +1,4 @@
-package Systementor.model;
+package model;
 
 public class User {
 

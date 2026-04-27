@@ -1,8 +1,8 @@
-package Systementor.service;
+package service;
 
-import Systementor.model.Note;
-import Systementor.model.User;
-import Systementor.repository.NoteRepository;
+import model.Note;
+import model.User;
+import repository.NoteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,6 @@ public class NoteService {
             System.out.println("NoteId can not be negative");
             return false;
         }
-
         Note noteToBeUpdated = getNote(user, noteId);
         if (noteToBeUpdated == null) {
             System.out.println("Note not found");
@@ -122,7 +121,6 @@ public class NoteService {
             System.out.println("User is null");
             return false;
         }
-
         Note note = getNote(user, noteId);
         if (note == null) {
             System.out.println("Note not found");

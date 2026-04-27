@@ -1,9 +1,9 @@
-package Systementor.ui;
+package ui;
 
-import Systementor.model.Note;
-import Systementor.model.User;
-import Systementor.service.AuthService;
-import Systementor.service.NoteService;
+import model.Note;
+import model.User;
+import service.AuthService;
+import service.NoteService;
 
 import java.util.List;
 
@@ -143,23 +143,12 @@ public class ConsoleMenu {
 
     public void viewNotesByUser(User user) {
         List<Note> notes = noteService.getNotesByUser(user);
-        printNotes(notes);
+        ConsoleHelper.printNotes(notes);
     }
 
     public void viewNotesAsAdmin(User user) {
         List<Note> notes = noteService.getAllNotesAsAdmin(user);
-        printNotes(notes);
-    }
-
-    public void printNotes(List<Note> notes) {
-        if (notes.isEmpty()) {
-            System.out.println("No notes where found");
-            return;
-        }
-        for (int i = 0; i < notes.size(); i++) {
-            Note note = notes.get(i);
-            System.out.println((i + 1) + " " + note);
-        }
+        ConsoleHelper.printNotes(notes);
     }
 
     public void editNoteAsUser(User user) {

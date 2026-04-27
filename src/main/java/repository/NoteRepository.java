@@ -1,8 +1,8 @@
-package Systementor.repository;
+package repository;
 
-import Systementor.config.DatabaseConnection;
-import Systementor.model.Note;
-import Systementor.model.User;
+import config.DatabaseConnection;
+import model.Note;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

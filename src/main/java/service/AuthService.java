@@ -1,7 +1,7 @@
-package Systementor.service;
+package service;
 
-import Systementor.model.User;
-import Systementor.repository.UserRepository;
+import model.User;
+import repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService {

@@ -1,8 +1,8 @@
-package Systementor.model;
+package model;
 
 public class Note {
 
-   private int id;
+    private int id;
     private String title;
     private String content;
     private int userId;
@@ -51,10 +51,7 @@ public class Note {
 
     @Override
     public String toString() {
-       return  "id: " + this.id + "\n" +
-                "title: " + this.title + "\n" +
-                "content: " + this.content + "\n" +
-                "userId: " + this.userId + "\n";
-
+        return "Title: " + this.title + "\n" +
+                "Content: " + this.content + "\n";
     }
 }

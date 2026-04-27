@@ -1,5 +1,8 @@
-package Systementor.ui;
+package ui;
 
+import model.Note;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleHelper {
@@ -38,4 +41,16 @@ public class ConsoleHelper {
         }
         return currentValue;
     }
+
+    public static void printNotes(List<Note> notes) {
+        if (notes.isEmpty()) {
+            System.out.println("No notes where found");
+            return;
+        }
+        for (int i = 0; i < notes.size(); i++) {
+            Note note = notes.get(i);
+            System.out.println("Note: " + (i + 1) + "\n" + note);
+        }
+    }
+
 }

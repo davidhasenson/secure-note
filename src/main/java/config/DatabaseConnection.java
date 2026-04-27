@@ -1,4 +1,4 @@
-package Systementor.config;
+package config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
