@@ -23,17 +23,6 @@ public class Helper {
         return scanner.nextLine();
     }
 
-    public static int enterInt(String message) {
-        while (true) {
-            System.out.print(message);
-            try {
-                return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("You must enter a number");
-            }
-        }
-    }
-
     public static UUID enterUUID(String message) {
         String input = Helper.enterString(message);
         UUID uuid;
@@ -87,6 +76,4 @@ public class Helper {
         note.setUUID(UUID.fromString(resultSet.getString("UUID")));
         return note;
     }
-
-
 }

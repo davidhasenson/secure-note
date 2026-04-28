@@ -203,19 +203,16 @@ public class ConsoleMenu {
 
     public void deleteNote(User user) {
         logger.info("Deleting note");
-
         UUID uuid = Helper.enterUUID("Enter the uuid of the note you want to delete: ");
         if (uuid == null) {
             return;
         }
-
         Note noteToDelete = noteService.getNote(user, uuid);
         if (noteToDelete == null) {
             System.out.println("Note could not be found");
             logger.info("Note could not be found");
             return;
         }
-
         System.out.println(noteToDelete);
         if (Helper.choseYesOrNo("Are you sure you want to delete this note?")) {
             boolean success = noteService.deleteNote(user, noteToDelete.getUUID());

@@ -105,6 +105,7 @@ public class NoteService {
         noteToBeUpdated.setContent(newContent);
         return noteRepository.updateNote(noteToBeUpdated);
     }
+
     public boolean deleteNote(User user, UUID uuid) {
         logger.info("Deleting Note");
         if (user == null) {
