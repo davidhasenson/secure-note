@@ -27,7 +27,7 @@ public class UserRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -44,7 +44,7 @@ public class UserRepository {
             return resultSet.next();
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -68,8 +68,8 @@ public class UserRepository {
                 return user;
             }
 
-        } catch (SQLException _) {
-            logger.error("SQL Error");
+        } catch (SQLException e) {
+            logger.error("SQL Error ", e);
         }
         return null;
     }
@@ -87,7 +87,7 @@ public class UserRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }

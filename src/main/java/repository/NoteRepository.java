@@ -34,7 +34,7 @@ public class NoteRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -54,7 +54,7 @@ public class NoteRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -75,7 +75,7 @@ public class NoteRepository {
             }
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
         }
         return notes;
     }
@@ -95,7 +95,7 @@ public class NoteRepository {
             }
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
         }
         return notes;
     }
@@ -120,7 +120,7 @@ public class NoteRepository {
             }
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
         }
         return null;
     }
@@ -140,7 +140,7 @@ public class NoteRepository {
             }
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
         }
         return null;
     }
@@ -160,7 +160,7 @@ public class NoteRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -178,7 +178,7 @@ public class NoteRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }
@@ -197,7 +197,7 @@ public class NoteRepository {
             return resultSet.next();
 
         } catch (SQLException e) {
-            logger.error("SQL Error");
+            logger.error("SQL Error ", e);
             return false;
         }
     }

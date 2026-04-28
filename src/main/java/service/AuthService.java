@@ -67,7 +67,7 @@ public class AuthService {
             logger.warn("New passwords do not match");
             return false;
         }
-//        if (newPassword1.length() < 4) {
+//        if (newPassword1.length() < 8) {
 //            logger.warn("New passwords too short");
 //            return false;
 //        }

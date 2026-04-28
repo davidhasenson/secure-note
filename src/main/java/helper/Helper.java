@@ -24,7 +24,8 @@ public class Helper {
     }
 
     public static UUID enterUUID(String message) {
-        String input = Helper.enterString(message);
+        System.out.print(message);
+        String input = scanner.nextLine();
         UUID uuid;
         try {
             return uuid = UUID.fromString(input);
@@ -43,7 +44,7 @@ public class Helper {
 
     public static String updateValue(String valueName, String currentValue) {
         logger.info("Update " + valueName);
-        System.out.println("Do you want to enter a new" + valueName + " ?" + " (y/n)");
+        System.out.println("Do you want to enter a new " + valueName + " ?" + " (y/n)");
         if ("y".equalsIgnoreCase(scanner.nextLine().trim())) {
             System.out.print("Enter new " + valueName + ": ");
             return scanner.nextLine();

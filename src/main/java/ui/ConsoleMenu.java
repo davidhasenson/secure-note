@@ -167,7 +167,7 @@ public class ConsoleMenu {
     }
 
     public void editNoteAsUser(User user) {
-        logger.info("Edit note as admin");
+        logger.info("Edit note");
         UUID uuid = Helper.enterUUID("Enter the uuid of the note you want to edit: ");
         if (uuid == null) {
             return;
