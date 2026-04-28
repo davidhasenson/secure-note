@@ -22,6 +22,7 @@ public class AuthService {
             return false;
         }
         if (userRepository.existsByUsername(username)) {
+            System.out.println("User already exists");
             logger.warn("Username already exist");
             return false;
         }
