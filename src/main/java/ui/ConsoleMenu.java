@@ -1,18 +1,24 @@
 package ui;
 
+import helper.Helper;
 import model.Note;
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.AuthService;
 import service.NoteService;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ConsoleMenu {
 
     private final AuthService service = new AuthService();
     private final NoteService noteService = new NoteService();
+    private static final Logger logger = LogManager.getLogger(ConsoleMenu.class);
 
     public void start() {
+        logger.info("Menu started");
         boolean running = true;
 
         while (running) {
@@ -21,7 +27,7 @@ public class ConsoleMenu {
             System.out.println("2. Log in");
             System.out.println("3. Exit");
 
-            String choice = ConsoleHelper.enterString("Chose an option ");
+            String choice = Helper.enterString("Chose an option ");
             switch (choice) {
                 case "1" -> register();
                 case "2" -> login();
@@ -32,26 +38,30 @@ public class ConsoleMenu {
     }
 
     private void register() {
-        String username = ConsoleHelper.enterString("Enter username: ");
-        String password = ConsoleHelper.enterString("Enter password: ");
+        logger.info("Register new user");
+        String username = Helper.enterString("Enter username: ");
+        String password = Helper.enterString("Enter password: ");
 
         boolean success = service.register(username, password);
         if (success) {
             System.out.println("User registered successfully");
-
+            logger.info("New user created");
         } else {
             System.out.println("Could not save user");
+            logger.info("Could not create user");
         }
     }
 
     private void login() {
-        String username = ConsoleHelper.enterString("Enter username: ");
-        String password = ConsoleHelper.enterString("Enter password: ");
+        logger.info("Logging in");
+        String username = Helper.enterString("Enter username: ");
+        String password = Helper.enterString("Enter password: ");
 
         User user = service.login(username, password);
 
         if (user != null) {
             System.out.println(user.getUsername() + " successfully logged in");
+            logger.info("Logged in successfully");
             switch (user.getRole()) {
                 case "USER" -> userMenu(user);
                 case "ADMIN" -> adminMenu(user);
@@ -59,14 +69,13 @@ public class ConsoleMenu {
             }
         } else {
             System.out.println("Login failed");
+            logger.info("Login failed");
         }
     }
 
     public void userMenu(User loggedInUser) {
-        //boolean userMenu = true;
         boolean loggedIn = true;
         while (loggedIn) {
-            // while (userMenu) {
             System.out.println("\n--- Secure note user---");
             System.out.println("1. Add note");
             System.out.println("2. View notes");
@@ -75,7 +84,7 @@ public class ConsoleMenu {
             System.out.println("5. Change password");
             System.out.println("6. Exit");
 
-            String choice = ConsoleHelper.enterString("Chose an option ");
+            String choice = Helper.enterString("Chose an option ");
             switch (choice) {
                 case "1" -> addNote(loggedInUser);
                 case "2" -> viewNotesByUser(loggedInUser);
@@ -89,20 +98,18 @@ public class ConsoleMenu {
     }
 
     public void adminMenu(User loggedInUser) {
-        //  boolean adminMenu = true;
         boolean loggedIn = true;
         while (loggedIn) {
-            //while (adminMenu) {
             System.out.println("\n--- Secure note admin---");
             System.out.println("1. Add note");
             System.out.println("2. View notes");
-            System.out.println("3. view all notes");
+            System.out.println("3. View all notes");
             System.out.println("4. Edit note");
             System.out.println("5. Delete note");
             System.out.println("6. Change password");
             System.out.println("7. Exit");
 
-            String choice = ConsoleHelper.enterString("Choice an option ");
+            String choice = Helper.enterString("Choice an option ");
 
             switch (choice) {
                 case "1" -> addNote(loggedInUser);
@@ -118,92 +125,110 @@ public class ConsoleMenu {
     }
 
     public void changePassword(User loggedInUser) {
-        String oldPassword = ConsoleHelper.enterString("Enter old password: ");
-        String newPassword = ConsoleHelper.enterString("Enter new password: ");
-        String confirmNewPassword = ConsoleHelper.enterString("Enter new password again: ");
+        logger.info("Changing password");
+        String oldPassword = Helper.enterString("Enter old password: ");
+        String newPassword = Helper.enterString("Enter new password: ");
+        String confirmNewPassword = Helper.enterString("Enter new password again: ");
         boolean success = service.changePassword(loggedInUser, oldPassword, newPassword, confirmNewPassword);
         if (success) {
             System.out.println("Password changed successfully");
+            logger.info("Password changed successfully");
         } else {
             System.out.println("Password change failed");
+            logger.info("Password change failed");
         }
     }
 
     public void addNote(User user) {
-        String title = ConsoleHelper.enterString("Enter title: ");
-        String content = ConsoleHelper.enterString("Enter content: ");
+        logger.info("Adding note");
+        String title = Helper.enterString("Enter title: ");
+        String content = Helper.enterString("Enter content: ");
 
         boolean success = noteService.addNote(user, title, content);
         if (success) {
             System.out.println("Note added successfully");
+            logger.info("Note added successfully");
         } else {
             System.out.println("Note could not be saved");
+            logger.info("Note could not be saved");
         }
     }
 
     public void viewNotesByUser(User user) {
+        logger.info("View notes by user");
         List<Note> notes = noteService.getNotesByUser(user);
-        ConsoleHelper.printNotes(notes);
+        Helper.printNotes(notes);
     }
 
     public void viewNotesAsAdmin(User user) {
+        logger.info("View notes as admin");
         List<Note> notes = noteService.getAllNotesAsAdmin(user);
-        ConsoleHelper.printNotes(notes);
+        Helper.printNotes(notes);
     }
 
     public void editNoteAsUser(User user) {
-      //  viewNotesByUser(user);
-        int noteNumber = ConsoleHelper.enterInt("Enter the number of the note you want to edit: ");
-
-        Note note = noteService.getNoteByNumber(noteNumber,user);
-        if (note == null) {
-            System.out.println("Note could not be found");
+        logger.info("Edit note as admin");
+        UUID uuid = Helper.enterUUID("Enter the uuid of the note you want to edit: ");
+        if (uuid == null) {
             return;
         }
-        //kontrollera om man får redigera eller inte
-        note = noteService.getNote(user, note.getId());
 
+        Note note = noteService.getNote(user, uuid);
         if (note == null) {
             System.out.println("Note could not be found");
+            logger.warn("Note could not be found");
             return;
         }
 
         System.out.println("You chosen to edit note: \n" + note);
 
-        String newTitle = ConsoleHelper.updateValue("title",note.getTitle());
-        String newContent = ConsoleHelper.updateValue("content",note.getContent());
+        String newTitle = Helper.updateValue("title", note.getTitle());
+        String newContent = Helper.updateValue("content", note.getContent());
 
-        if (ConsoleHelper.choseYesOrNo("Do you want to save the note?")) {
-            boolean success = noteService.updateNote(user, newTitle, newContent, note.getId());
+        if (Helper.choseYesOrNo("Do you want to save the note?")) {
+            logger.info("Updating note");
+            boolean success = noteService.updateNote(user, newTitle, newContent, note.getUUID());
             if (success) {
                 System.out.println("Note edited successfully");
+                logger.info("Note edited successfully");
             } else {
                 System.out.println("Note could not be saved");
+                logger.warn("Note could not be saved");
             }
         } else {
             System.out.println("Changes discarded.");
+            logger.info("Changes discarded.");
         }
     }
 
     public void deleteNote(User user) {
-        int noteId = ConsoleHelper.enterInt("Enter the ID of the note you want to delete: ");
+        logger.info("Deleting note");
 
-        Note noteToDelete = noteService.getNote(user, noteId);
+        UUID uuid = Helper.enterUUID("Enter the uuid of the note you want to delete: ");
+        if (uuid == null) {
+            return;
+        }
+
+        Note noteToDelete = noteService.getNote(user, uuid);
         if (noteToDelete == null) {
             System.out.println("Note could not be found");
+            logger.info("Note could not be found");
             return;
         }
 
         System.out.println(noteToDelete);
-        if (ConsoleHelper.choseYesOrNo("Are you sure you want to delete this note?")) {
-            boolean success = noteService.deleteNote(user, noteToDelete.getId());
+        if (Helper.choseYesOrNo("Are you sure you want to delete this note?")) {
+            boolean success = noteService.deleteNote(user, noteToDelete.getUUID());
             if (success) {
                 System.out.println("Note deleted successfully");
+                logger.info("Note deleted successfully");
             } else {
                 System.out.println("Note could not be deleted");
+                logger.warn("Note could not be deleted");
             }
         } else {
             System.out.println("Deletion canceled.");
+            logger.info("Deletion canceled.");
         }
     }
 }
