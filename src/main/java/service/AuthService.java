@@ -14,10 +14,12 @@ public class AuthService {
     public boolean register(String username, String password) {
         logger.info("Registering user");
         if (username == null || username.isBlank()) {
+            System.out.println("Username can not be empty");
             logger.warn("Username is null or empty");
             return false;
         }
         if (password == null || password.isBlank()) {
+            System.out.println("Password can not be empty");
             logger.warn("Password is null or empty");
             return false;
         }

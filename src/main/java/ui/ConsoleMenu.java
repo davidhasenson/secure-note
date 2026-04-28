@@ -39,16 +39,26 @@ public class ConsoleMenu {
 
     private void register() {
         logger.info("Register new user");
-        String username = Helper.enterString("Enter username: ");
-        String password = Helper.enterString("Enter password: ");
+        boolean notRegisterd = true;
+        while (notRegisterd) {
+            String username = Helper.enterString("Enter username: ");
+            String password = Helper.enterString("Enter password: ");
 
-        boolean success = service.register(username, password);
-        if (success) {
-            System.out.println("User registered successfully");
-            logger.info("New user created");
-        } else {
-            System.out.println("Could not save user");
-            logger.info("Could not create user");
+            boolean success = service.register(username, password);
+            if (success) {
+                System.out.println("User registered successfully");
+                logger.info("New user created");
+                notRegisterd = false;
+            } else {
+                System.out.println("Could not save user");
+                logger.info("Could not create user");
+                System.out.println("Do you want to try again?");
+                String tryAgain = Helper.enterString("Do you want to try again? (y/n) ");
+                if (!tryAgain.equalsIgnoreCase("y")) {
+                    notRegisterd = false;
+                }
+                logger.info("Trying again");
+            }
         }
     }
 
